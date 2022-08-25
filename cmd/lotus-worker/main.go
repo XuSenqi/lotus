@@ -125,6 +125,10 @@ var runCmd = &cli.Command{
 			Value: "0.0.0.0:3456",
 		},
 		&cli.StringFlag{
+			Name:  "workername",
+			Usage: "used when workername not initialized",
+		},
+		&cli.StringFlag{
 			Name:   "address",
 			Hidden: true,
 		},
@@ -370,9 +374,14 @@ var runCmd = &cli.Command{
 
 			var localPaths []stores.LocalPath
 
+			workerId := uuid.New().String()
+			if cctx.IsSet("workername") {
+				workerId = cctx.String("workername")
+			}
+
 			if !cctx.Bool("no-local-storage") {
 				b, err := json.MarshalIndent(&stores.LocalStorageMeta{
-					ID:       storiface.ID(uuid.New().String()),
+					ID:       storiface.ID(workerId),
 					Weight:   10,
 					CanSeal:  true,
 					CanStore: false,

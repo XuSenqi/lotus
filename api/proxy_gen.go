@@ -803,6 +803,8 @@ type StorageMinerStruct struct {
 
 		SectorCommitPending func(p0 context.Context) ([]abi.SectorID, error) `perm:"admin"`
 
+		SectorCounterGet func(p0 context.Context) (abi.SectorNumber, error) `perm:"read"`
+
 		SectorGetExpectedSealDuration func(p0 context.Context) (time.Duration, error) `perm:"read"`
 
 		SectorGetSealDelay func(p0 context.Context) (time.Duration, error) `perm:"read"`
@@ -4757,6 +4759,17 @@ func (s *StorageMinerStruct) SectorCommitPending(p0 context.Context) ([]abi.Sect
 
 func (s *StorageMinerStub) SectorCommitPending(p0 context.Context) ([]abi.SectorID, error) {
 	return *new([]abi.SectorID), ErrNotSupported
+}
+
+func (s *StorageMinerStruct) SectorCounterGet(p0 context.Context) (abi.SectorNumber, error) {
+	if s.Internal.SectorCounterGet == nil {
+		return *new(abi.SectorNumber), ErrNotSupported
+	}
+	return s.Internal.SectorCounterGet(p0)
+}
+
+func (s *StorageMinerStub) SectorCounterGet(p0 context.Context) (abi.SectorNumber, error) {
+	return *new(abi.SectorNumber), ErrNotSupported
 }
 
 func (s *StorageMinerStruct) SectorGetExpectedSealDuration(p0 context.Context) (time.Duration, error) {

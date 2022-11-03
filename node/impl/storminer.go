@@ -1240,3 +1240,8 @@ func (sm *StorageMinerAPI) ComputeProof(ctx context.Context, ssi []builtin.Exten
 func (sm *StorageMinerAPI) RuntimeSubsystems(context.Context) (res api.MinerSubsystems, err error) {
 	return sm.EnabledSubsystems, nil
 }
+
+func (sm *StorageMinerAPI) SectorCounterGet(ctx context.Context) (abi.SectorNumber, error) {
+	fmt.Println("storminer.go SectorCounterGet called")
+	return sm.Miner.GetSectorNumber(ctx)
+}

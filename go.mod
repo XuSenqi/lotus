@@ -45,7 +45,6 @@ require (
 	github.com/filecoin-project/go-state-types v0.1.10
 	github.com/filecoin-project/go-statemachine v1.0.2
 	github.com/filecoin-project/go-statestore v0.2.0
-	github.com/filecoin-project/go-storedcounter v0.1.0
 	github.com/filecoin-project/index-provider v0.5.0
 	github.com/filecoin-project/pubsub v1.0.0
 	github.com/filecoin-project/specs-actors v0.9.15
@@ -168,6 +167,8 @@ require (
 	gopkg.in/cheggaaa/pb.v1 v1.0.28
 	gotest.tools v2.2.0+incompatible
 )
+
+require github.com/filecoin-project/go-storedcounter v0.0.0-00010101000000-000000000000
 
 require (
 	github.com/GeertJohan/go.incremental v1.0.0 // indirect
@@ -352,3 +353,5 @@ require (
 replace github.com/filecoin-project/filecoin-ffi => ./extern/filecoin-ffi
 
 replace github.com/filecoin-project/test-vectors => ./extern/test-vectors
+
+replace github.com/filecoin-project/go-storedcounter => ./extern/go-storedcounter

@@ -60,6 +60,7 @@ var sectorsCmd = &cli.Command{
 		sectorsBatching,
 		sectorsRefreshPieceMatchingCmd,
 		sectorsCompactPartitionsCmd,
+		sectorsCounter, // 这里增加我们需要的子命令
 	},
 }
 
@@ -2190,6 +2191,34 @@ var sectorsCompactPartitionsCmd = &cli.Command{
 			return err
 		}
 
+		return nil
+	},
+}
+
+var sectorsCounter = &cli.Command{
+	Name:  "counter",
+	Usage: "manage sector number counter",
+	Subcommands: []*cli.Command{
+		sectorsCounterGet,
+	},
+}
+
+var sectorsCounterGet = &cli.Command{
+	Name:  "get",
+	Usage: "get the current sector number.",
+	Action: func(cctx *cli.Context) error {
+		nodeApi, closer, err := lcli.GetStorageMinerAPI(cctx)
+		if err != nil {
+			return err
+		}
+		defer closer()
+		ctx := lcli.ReqContext(cctx)
+		sectorNum, err := nodeApi.SectorCounterGet(ctx)
+		if err != nil {
+			return err
+		}
+
+		fmt.Println("Current sector counter number: ", sectorNum)
 		return nil
 	},
 }

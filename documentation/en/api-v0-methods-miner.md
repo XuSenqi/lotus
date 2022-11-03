@@ -132,6 +132,7 @@
   * [SectorAddPieceToAny](#SectorAddPieceToAny)
   * [SectorCommitFlush](#SectorCommitFlush)
   * [SectorCommitPending](#SectorCommitPending)
+  * [SectorCounterGet](#SectorCounterGet)
   * [SectorGetExpectedSealDuration](#SectorGetExpectedSealDuration)
   * [SectorGetSealDelay](#SectorGetSealDelay)
   * [SectorMarkForUpgrade](#SectorMarkForUpgrade)
@@ -2833,6 +2834,16 @@ Response:
   }
 ]
 ```
+
+### SectorCounterGet
+@Added by patrick.xu 2022-11-02 for lotus-miner sectors counter cmd
+
+
+Perms: read
+
+Inputs: `null`
+
+Response: `9`
 
 ### SectorGetExpectedSealDuration
 SectorGetExpectedSealDuration gets the expected time for a sector to seal

@@ -1666,6 +1666,7 @@ COMMANDS:
    batching              manage batch sector operations
    match-pending-pieces  force a refreshed match of pending pieces to open sectors without manually waiting for more deals
    compact-partitions    removes dead sectors from partitions and reduces the number of partitions used if possible
+   counter               manage sector number counter
    help, h               Shows a list of commands or help for one command
 
 OPTIONS:
@@ -2021,6 +2022,36 @@ OPTIONS:
    --really-do-it      Actually send transaction performing the action (default: false)
    --actor value       Specify the address of the miner to run this command
    --help, -h          show help (default: false)
+   
+```
+
+### lotus-miner sectors counter
+```
+NAME:
+   lotus-miner sectors counter - manage sector number counter
+
+USAGE:
+   lotus-miner sectors counter command [command options] [arguments...]
+
+COMMANDS:
+   get      get the current sector number.
+   help, h  Shows a list of commands or help for one command
+
+OPTIONS:
+   --help, -h  show help (default: false)
+   
+```
+
+#### lotus-miner sectors counter get
+```
+NAME:
+   lotus-miner sectors counter get - get the current sector number.
+
+USAGE:
+   lotus-miner sectors counter get [command options] [arguments...]
+
+OPTIONS:
+   --help, -h  show help (default: false)
    
 ```
 

@@ -162,4 +162,8 @@ func (m *Miner) SectorsStatus(ctx context.Context, sid abi.SectorNumber, showOnC
 	return sInfo, nil
 }
 
+func (m *Miner) GetSectorNumber(ctx context.Context) (abi.SectorNumber, error) {
+	return m.sealing.GetSectorNumber(ctx)
+}
+
 var _ sectorblocks.SectorBuilder = &Miner{}

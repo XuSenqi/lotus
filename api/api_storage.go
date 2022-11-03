@@ -274,6 +274,9 @@ type StorageMiner interface {
 	CheckProvable(ctx context.Context, pp abi.RegisteredPoStProof, sectors []storage.SectorRef, expensive bool) (map[abi.SectorNumber]string, error) //perm:admin
 
 	ComputeProof(ctx context.Context, ssi []builtin.ExtendedSectorInfo, rand abi.PoStRandomness, poStEpoch abi.ChainEpoch, nv abinetwork.Version) ([]builtin.PoStProof, error) //perm:read
+
+	// @Added by patrick.xu 2022-11-02 for lotus-miner sectors counter cmd
+	SectorCounterGet(context.Context) (abi.SectorNumber, error) //perm:read
 }
 
 var _ storiface.WorkerReturn = *new(StorageMiner)

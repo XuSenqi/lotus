@@ -3,6 +3,7 @@ package sealing
 import (
 	"context"
 	"errors"
+	"fmt"
 	"sync"
 	"time"
 
@@ -295,6 +296,11 @@ func (m *Sealing) minerSectorID(num abi.SectorNumber) abi.SectorID {
 
 func (m *Sealing) Address() address.Address {
 	return m.maddr
+}
+
+func (m *Sealing) GetSectorNumber(ctx context.Context) (abi.SectorNumber, error) {
+	fmt.Println("sealing.go GetSectorNumber called")
+	return m.sc.Get()
 }
 
 func getDealPerSectorLimit(size abi.SectorSize) (int, error) {

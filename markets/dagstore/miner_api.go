@@ -61,6 +61,7 @@ func (m *minerAPI) Start(_ context.Context) error {
 }
 
 func (m *minerAPI) IsUnsealed(ctx context.Context, pieceCid cid.Cid) (bool, error) {
+	fmt.Printf("Enter miner_api.go (m *minerAPI) IsUnsealed\n")
 	err := m.readyMgr.AwaitReady()
 	if err != nil {
 		return false, xerrors.Errorf("failed while waiting for accessor to start: %w", err)
@@ -109,6 +110,7 @@ func (m *minerAPI) IsUnsealed(ctx context.Context, pieceCid cid.Cid) (bool, erro
 }
 
 func (m *minerAPI) FetchUnsealedPiece(ctx context.Context, pieceCid cid.Cid) (mount.Reader, error) {
+	fmt.Printf("Enter FetchUnsealedPiece, pieceCid: %v\n", pieceCid)
 	err := m.readyMgr.AwaitReady()
 	if err != nil {
 		return nil, err

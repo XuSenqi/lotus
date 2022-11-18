@@ -3,6 +3,7 @@ package sectorstorage
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"io/ioutil"
 	"math/rand"
 	"net"
@@ -331,6 +332,7 @@ func (p *pieceProviderTestHarness) preCommit2(t *testing.T, pc1 specstorage.PreC
 }
 
 func (p *pieceProviderTestHarness) isUnsealed(t *testing.T, offset storiface.UnpaddedByteIndex, size abi.UnpaddedPieceSize) bool {
+	fmt.Printf("Enter piece_provider_test.go, (p *pieceProviderTestHarness) isUnsealed, offset %d, size %d\n", offset, size)
 	b, err := p.pp.IsUnsealed(p.ctx, p.sector, offset, size)
 	require.NoError(t, err)
 	return b

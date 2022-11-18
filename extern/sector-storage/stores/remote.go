@@ -91,6 +91,7 @@ func NewRemote(local Store, index SectorIndex, auth http.Header, fetchLimit int,
 }
 
 func (r *Remote) AcquireSector(ctx context.Context, s storage.SectorRef, existing storiface.SectorFileType, allocate storiface.SectorFileType, pathType storiface.PathType, op storiface.AcquireMode) (storiface.SectorPaths, storiface.SectorPaths, error) {
+	fmt.Printf("Enter extern/sector-storage/stores/remote.go, func (r *Remote) AcquireSector")
 	if existing|allocate != existing^allocate {
 		return storiface.SectorPaths{}, storiface.SectorPaths{}, xerrors.New("can't both find and allocate a sector")
 	}
@@ -325,6 +326,8 @@ func (r *Remote) fetch(ctx context.Context, url, outname string) error {
 
 func (r *Remote) checkAllocated(ctx context.Context, url string, spt abi.RegisteredSealProof, offset, size abi.PaddedPieceSize) (bool, error) {
 	url = fmt.Sprintf("%s/%d/allocated/%d/%d", url, spt, offset.Unpadded(), size.Unpadded())
+
+	fmt.Printf("remote.go, func (r *Remote) checkAllocated, url %s\n", url)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return false, xerrors.Errorf("request: %w", err)
@@ -524,12 +527,18 @@ func (r *Remote) readRemote(ctx context.Context, url string, offset, size abi.Pa
 // either locally or on any of the workers.
 // Returns true if we have the unsealed piece, false otherwise.
 func (r *Remote) CheckIsUnsealed(ctx context.Context, s storage.SectorRef, offset, size abi.PaddedPieceSize) (bool, error) {
+	fmt.Printf("Enter remote.go (r *Remote) CheckIsUnsealed\n")
 	ft := storiface.FTUnsealed
 
 	paths, _, err := r.local.AcquireSector(ctx, s, ft, storiface.FTNone, storiface.PathStorage, storiface.AcquireMove)
 	if err != nil {
 		return false, xerrors.Errorf("acquire local: %w", err)
 	}
+	fmt.Printf("paths: %v\n", paths)
+	fmt.Printf("paths.ID: %v\n", paths.ID)
+	fmt.Printf("paths.Unsealed: %v\n", paths.Unsealed)   //  /us3fs/unsealed/s-t01003-0
+	fmt.Printf("paths.Sealed: %v\n", paths.Sealed)
+	fmt.Printf("paths.Cache: %v\n", paths.Cache)
 
 	path := storiface.PathByType(paths, ft)
 	if path != "" {
@@ -539,6 +548,7 @@ func (r *Remote) CheckIsUnsealed(ctx context.Context, s storage.SectorRef, offse
 		if err != nil {
 			return false, err
 		}
+	    fmt.Printf("ssize: %v\n", ssize)   //  ssize: 2048
 
 		// open the unsealed sector file for the given sector size located at the given path.
 		pf, err := r.pfHandler.OpenPartialFile(abi.PaddedPieceSize(ssize), path)
@@ -546,6 +556,8 @@ func (r *Remote) CheckIsUnsealed(ctx context.Context, s storage.SectorRef, offse
 			return false, xerrors.Errorf("opening partial file: %w", err)
 		}
 		log.Debugf("local partial file opened %s (+%d,%d)", path, offset, size)
+	    fmt.Printf("path: %v\n", path)
+	    fmt.Printf("pf: %v\n", pf)
 
 		// even though we have an unsealed file for the given sector, we still need to determine if we have the unsealed piece
 		// in the unsealed sector file. That is what `HasAllocated` checks for.
@@ -575,6 +587,7 @@ func (r *Remote) CheckIsUnsealed(ctx context.Context, s storage.SectorRef, offse
 		return false, xerrors.Errorf("StorageFindSector: %s", err)
 	}
 
+	fmt.Printf("len(si): %v\n", len(si))
 	if len(si) == 0 {
 		return false, nil
 	}
@@ -585,6 +598,7 @@ func (r *Remote) CheckIsUnsealed(ctx context.Context, s storage.SectorRef, offse
 
 	for _, info := range si {
 		for _, url := range info.URLs {
+	        fmt.Printf("url to check: %v\n", url)
 			ok, err := r.checkAllocated(ctx, url, s.ProofType, offset, size)
 			if err != nil {
 				log.Warnw("check if remote has piece", "url", url, "error", err)

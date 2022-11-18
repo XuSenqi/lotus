@@ -2,6 +2,7 @@ package sectoraccessor
 
 import (
 	"context"
+	"fmt"
 	"io"
 
 	"github.com/ipfs/go-cid"
@@ -40,10 +41,12 @@ func NewSectorAccessor(maddr dtypes.MinerAddress, secb sectorblocks.SectorBuilde
 }
 
 func (sa *sectorAccessor) UnsealSector(ctx context.Context, sectorID abi.SectorNumber, pieceOffset abi.UnpaddedPieceSize, length abi.UnpaddedPieceSize) (io.ReadCloser, error) {
+	fmt.Printf("Enter sectoraccessor.go, func (sa *sectorAccessor) UnsealSector\n")
 	return sa.UnsealSectorAt(ctx, sectorID, pieceOffset, length)
 }
 
 func (sa *sectorAccessor) UnsealSectorAt(ctx context.Context, sectorID abi.SectorNumber, pieceOffset abi.UnpaddedPieceSize, length abi.UnpaddedPieceSize) (mount.Reader, error) {
+	fmt.Printf("Enter sectoraccessor.go, func (sa *sectorAccessor) UnsealSectorAt\n")
 	log.Debugf("get sector %d, pieceOffset %d, length %d", sectorID, pieceOffset, length)
 	si, err := sa.sectorsStatus(ctx, sectorID, false)
 	if err != nil {
@@ -80,10 +83,12 @@ func (sa *sectorAccessor) UnsealSectorAt(ctx context.Context, sectorID abi.Secto
 }
 
 func (sa *sectorAccessor) IsUnsealed(ctx context.Context, sectorID abi.SectorNumber, offset abi.UnpaddedPieceSize, length abi.UnpaddedPieceSize) (bool, error) {
+	fmt.Printf("Enter sectoraccessor.go, (sa *sectorAccessor) IsUnsealed, sectorID %d, offset %d, length %d\n", sectorID, offset, length)
 	si, err := sa.sectorsStatus(ctx, sectorID, true)
 	if err != nil {
 		return false, xerrors.Errorf("failed to get sector info: %w", err)
 	}
+	//fmt.Printf("si: %v\n", si)
 
 	mid, err := address.IDFromAddress(sa.maddr)
 	if err != nil {
@@ -97,6 +102,7 @@ func (sa *sectorAccessor) IsUnsealed(ctx context.Context, sectorID abi.SectorNum
 		},
 		ProofType: si.SealProof,
 	}
+	fmt.Printf("Miner: %s\n", abi.ActorID(mid))
 
 	log.Debugf("will call IsUnsealed now sector=%+v, offset=%d, size=%d", sectorID, offset, length)
 	return sa.pp.IsUnsealed(ctx, ref, storiface.UnpaddedByteIndex(offset), length)

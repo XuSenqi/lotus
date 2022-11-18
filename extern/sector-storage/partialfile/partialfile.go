@@ -2,6 +2,7 @@ package partialfile
 
 import (
 	"encoding/binary"
+	"fmt"
 	"io"
 	"os"
 	"syscall"
@@ -97,6 +98,7 @@ func CreatePartialFile(maxPieceSize abi.PaddedPieceSize, path string) (*PartialF
 }
 
 func OpenPartialFile(maxPieceSize abi.PaddedPieceSize, path string) (*PartialFile, error) {
+	fmt.Printf("Enter extern/sector-storage/partialfile/partialfile.go, func OpenPartialFile, maxPieceSize %d, path %s\n", maxPieceSize, path)
 	f, err := os.OpenFile(path, os.O_RDWR, 0644) // nolint
 	if err != nil {
 		return nil, xerrors.Errorf("openning partial file '%s': %w", path, err)
@@ -284,6 +286,7 @@ func (pf *PartialFile) Allocated() (rlepluslazy.RunIterator, error) {
 }
 
 func (pf *PartialFile) HasAllocated(offset storiface.UnpaddedByteIndex, size abi.UnpaddedPieceSize) (bool, error) {
+	fmt.Printf("Enter extern/sector-storage/partialfile/partialfile.go, offset=%d, size=%d\n", offset, size)
 	have, err := pf.Allocated()
 	if err != nil {
 		return false, err

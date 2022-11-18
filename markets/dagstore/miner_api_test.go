@@ -4,6 +4,7 @@ package dagstore
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"io"
 	"sync"
 	"sync/atomic"
@@ -31,6 +32,7 @@ const unsealedSectorID = abi.SectorNumber(1)
 const sealedSectorID = abi.SectorNumber(2)
 
 func TestLotusAccessorFetchUnsealedPiece(t *testing.T) {
+	fmt.Printf("Enter miner_api_test.go, TestLotusAccessorFetchUnsealedPiece\n")
 	ctx := context.Background()
 
 	cid1, err := cid.Parse("bafkqaaa")
@@ -231,6 +233,7 @@ func (m *mockRPN) UnsealSectorAt(ctx context.Context, sectorID abi.SectorNumber,
 }
 
 func (m *mockRPN) IsUnsealed(ctx context.Context, sectorID abi.SectorNumber, offset abi.UnpaddedPieceSize, length abi.UnpaddedPieceSize) (bool, error) {
+	fmt.Printf("Enter miner_api_test.go, (m *mockRPN) IsUnsealed\n")
 	return sectorID == unsealedSectorID, nil
 }
 

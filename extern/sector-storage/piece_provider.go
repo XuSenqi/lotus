@@ -3,6 +3,7 @@ package sectorstorage
 import (
 	"bufio"
 	"context"
+	"fmt"
 	"io"
 
 	"github.com/ipfs/go-cid"
@@ -51,6 +52,7 @@ func NewPieceProvider(storage *stores.Remote, index stores.SectorIndex, uns Unse
 // IsUnsealed checks if we have the unsealed piece at the given offset in an already
 // existing unsealed file either locally or on any of the workers.
 func (p *pieceProvider) IsUnsealed(ctx context.Context, sector storage.SectorRef, offset storiface.UnpaddedByteIndex, size abi.UnpaddedPieceSize) (bool, error) {
+	fmt.Printf("Enter piece_provider.go, (p *pieceProvider) IsUnsealed, offset %d, size %d\n", offset, size)
 	if err := offset.Valid(); err != nil {
 		return false, xerrors.Errorf("offset is not valid: %w", err)
 	}
@@ -157,6 +159,7 @@ var _ io.Closer = funcCloser(nil)
 // the returned boolean parameter will be set to true.
 // If we have an existing unsealed file containing the given piece, the returned boolean will be set to false.
 func (p *pieceProvider) ReadPiece(ctx context.Context, sector storage.SectorRef, pieceOffset storiface.UnpaddedByteIndex, size abi.UnpaddedPieceSize, ticket abi.SealRandomness, unsealed cid.Cid) (mount.Reader, bool, error) {
+	fmt.Printf("Enter piece_provider.go func (p *pieceProvider) ReadPiece\n")
 	if err := pieceOffset.Valid(); err != nil {
 		return nil, false, xerrors.Errorf("pieceOffset is not valid: %w", err)
 	}

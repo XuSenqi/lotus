@@ -129,6 +129,7 @@ func (mgr *SectorMgr) AcquireSectorNumber() (abi.SectorNumber, error) {
 }
 
 func (mgr *SectorMgr) IsUnsealed(ctx context.Context, sector storage.SectorRef, offset storiface.UnpaddedByteIndex, size abi.UnpaddedPieceSize) (bool, error) {
+	fmt.Printf("Enter mock.go, (mgr *SectorMgr) IsUnsealed, offset %d, size %d\n", offset, size)
 	return false, nil
 }
 

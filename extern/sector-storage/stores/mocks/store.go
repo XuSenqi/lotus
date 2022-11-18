@@ -6,6 +6,7 @@ package mocks
 
 import (
 	context "context"
+	"fmt"
 	reflect "reflect"
 
 	abi "github.com/filecoin-project/go-state-types/abi"
@@ -40,6 +41,7 @@ func (m *MockStore) EXPECT() *MockStoreMockRecorder {
 
 // AcquireSector mocks base method.
 func (m *MockStore) AcquireSector(arg0 context.Context, arg1 storage.SectorRef, arg2, arg3 storiface.SectorFileType, arg4 storiface.PathType, arg5 storiface.AcquireMode) (storiface.SectorPaths, storiface.SectorPaths, error) {
+	fmt.Printf("Enter extern/sector-storage/stores/mocks/store.go, func (m *MockStore) AcquireSector")
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "AcquireSector", arg0, arg1, arg2, arg3, arg4, arg5)
 	ret0, _ := ret[0].(storiface.SectorPaths)

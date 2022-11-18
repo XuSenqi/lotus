@@ -3,6 +3,7 @@
 package api
 
 import (
+	"fmt"
 	"context"
 	"encoding/json"
 	"time"
@@ -5290,6 +5291,7 @@ func (s *WorkerStub) Enabled(p0 context.Context) (bool, error) {
 }
 
 func (s *WorkerStruct) Fetch(p0 context.Context, p1 storage.SectorRef, p2 storiface.SectorFileType, p3 storiface.PathType, p4 storiface.AcquireMode) (storiface.CallID, error) {
+	fmt.Printf("Enter proxy_gen.go, func (s *WorkerStruct) Fetch")
 	if s.Internal.Fetch == nil {
 		return *new(storiface.CallID), ErrNotSupported
 	}

@@ -3,6 +3,7 @@ package stores
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"math/bits"
 	"math/rand"
@@ -426,6 +427,7 @@ func (st *Local) Reserve(ctx context.Context, sid storage.SectorRef, ft storifac
 }
 
 func (st *Local) AcquireSector(ctx context.Context, sid storage.SectorRef, existing storiface.SectorFileType, allocate storiface.SectorFileType, pathType storiface.PathType, op storiface.AcquireMode) (storiface.SectorPaths, storiface.SectorPaths, error) {
+	fmt.Printf("Enter extern/sector-storage/stores/local.go, func (st *Local) AcquireSector\n")
 	if existing|allocate != existing^allocate {
 		return storiface.SectorPaths{}, storiface.SectorPaths{}, xerrors.New("can't both find and allocate a sector")
 	}
@@ -442,6 +444,7 @@ func (st *Local) AcquireSector(ctx context.Context, sid storage.SectorRef, exist
 	var storageIDs storiface.SectorPaths
 
 	for _, fileType := range storiface.PathTypes {
+	    fmt.Printf("fileType %v\n", fileType)
 		if fileType&existing == 0 {
 			continue
 		}
@@ -453,6 +456,7 @@ func (st *Local) AcquireSector(ctx context.Context, sid storage.SectorRef, exist
 		}
 
 		for _, info := range si {
+	        fmt.Printf("info %v\n", info)
 			p, ok := st.paths[info.ID]
 			if !ok {
 				continue
@@ -472,10 +476,12 @@ func (st *Local) AcquireSector(ctx context.Context, sid storage.SectorRef, exist
 	}
 
 	for _, fileType := range storiface.PathTypes {
-		if fileType&allocate == 0 {
+	    fmt.Printf("fileType %v, allocate: %v\n", fileType, allocate)
+		if fileType&allocate == 0 {    // 目前测试retrieve, allcate 都是0
 			continue
 		}
 
+	    fmt.Printf("before st.index.StorageBestAlloc\n")
 		sis, err := st.index.StorageBestAlloc(ctx, fileType, ssize, pathType)
 		if err != nil {
 			return storiface.SectorPaths{}, storiface.SectorPaths{}, xerrors.Errorf("finding best storage for allocating : %w", err)
@@ -485,6 +491,7 @@ func (st *Local) AcquireSector(ctx context.Context, sid storage.SectorRef, exist
 		var bestID storiface.ID
 
 		for _, si := range sis {
+	        fmt.Printf("si %v\n", si)
 			p, ok := st.paths[si.ID]
 			if !ok {
 				continue

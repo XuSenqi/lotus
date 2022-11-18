@@ -2,6 +2,7 @@ package dagstore
 
 import (
 	"context"
+	"fmt"
 	"net/url"
 
 	"github.com/ipfs/go-cid"
@@ -56,6 +57,7 @@ func (l *LotusMount) Deserialize(u *url.URL) error {
 }
 
 func (l *LotusMount) Fetch(ctx context.Context) (mount.Reader, error) {
+	fmt.Printf("Enter mount.go, func (l *LotusMount) Fetch\n")
 	return l.API.FetchUnsealedPiece(ctx, l.PieceCid)
 }
 
@@ -73,6 +75,7 @@ func (l *LotusMount) Close() error {
 }
 
 func (l *LotusMount) Stat(ctx context.Context) (mount.Stat, error) {
+	fmt.Printf("Enter mount.go (l *LotusMount) Stat, l.PieceCid %v\n",	l.PieceCid)
 	size, err := l.API.GetUnpaddedCARSize(ctx, l.PieceCid)
 	if err != nil {
 		return mount.Stat{}, xerrors.Errorf("failed to fetch piece size for piece %s: %w", l.PieceCid, err)

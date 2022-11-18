@@ -84,20 +84,20 @@ interopnet: build-devnets
 
 lotus: $(BUILD_DEPS)
 	rm -f lotus
-	$(GOCC) build $(GOFLAGS) -o lotus ./cmd/lotus
+	$(GOCC) build $(GOFLAGS) -gcflags=all="-N -l" -o lotus ./cmd/lotus
 
 .PHONY: lotus
 BINS+=lotus
 
 lotus-miner: $(BUILD_DEPS)
 	rm -f lotus-miner
-	$(GOCC) build $(GOFLAGS) -o lotus-miner ./cmd/lotus-miner
+	$(GOCC) build $(GOFLAGS) -gcflags=all="-N -l" -o lotus-miner ./cmd/lotus-miner
 .PHONY: lotus-miner
 BINS+=lotus-miner
 
 lotus-worker: $(BUILD_DEPS)
 	rm -f lotus-worker
-	$(GOCC) build $(GOFLAGS) -o lotus-worker ./cmd/lotus-worker
+	$(GOCC) build $(GOFLAGS) -gcflags=all="-N -l" -o lotus-worker ./cmd/lotus-worker
 .PHONY: lotus-worker
 BINS+=lotus-worker
 

@@ -3,6 +3,7 @@ package stores
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
 	"strconv"
@@ -30,9 +31,11 @@ var _ PartialFileHandler = &DefaultPartialFileHandler{}
 type DefaultPartialFileHandler struct{}
 
 func (d *DefaultPartialFileHandler) OpenPartialFile(maxPieceSize abi.PaddedPieceSize, path string) (*partialfile.PartialFile, error) {
+	fmt.Printf("Enter extern/sector-storage/stores/http_handler.go, func (d *DefaultPartialFileHandler) OpenPartialFile\n")
 	return partialfile.OpenPartialFile(maxPieceSize, path)
 }
 func (d *DefaultPartialFileHandler) HasAllocated(pf *partialfile.PartialFile, offset storiface.UnpaddedByteIndex, size abi.UnpaddedPieceSize) (bool, error) {
+	fmt.Printf("Enter extern/sector-storage/stores/http_handler.go, func (d *DefaultPartialFileHandler) HasAllocated\n")
 	return pf.HasAllocated(offset, size)
 }
 

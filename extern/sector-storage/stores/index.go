@@ -254,6 +254,7 @@ func (i *Index) StorageDropSector(ctx context.Context, storageID storiface.ID, s
 }
 
 func (i *Index) StorageFindSector(ctx context.Context, s abi.SectorID, ft storiface.SectorFileType, ssize abi.SectorSize, allowFetch bool) ([]storiface.SectorStorageInfo, error) {
+	fmt.Printf("index.go, func (i *Index) StorageFindSector, s=%v, ft=%v, ssize=%v, allowFetch=%v\n", s, ft, ssize, allowFetch)
 	i.lk.RLock()
 	defer i.lk.RUnlock()
 

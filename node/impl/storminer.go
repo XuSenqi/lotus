@@ -835,6 +835,7 @@ func (sm *StorageMinerAPI) DagstoreInitializeShard(ctx context.Context, key stri
 }
 
 func (sm *StorageMinerAPI) DagstoreInitializeAll(ctx context.Context, params api.DagstoreInitializeAllParams) (<-chan api.DagstoreInitializeAllEvent, error) {
+	fmt.Printf("Enter storminer.go, (sm *StorageMinerAPI) DagstoreInitializeAll\n")
 	if sm.DAGStore == nil {
 		return nil, fmt.Errorf("dagstore not available on this node")
 	}
